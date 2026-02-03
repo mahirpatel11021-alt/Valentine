@@ -13,6 +13,7 @@
       align-items: center;
       font-family: 'Segoe UI', sans-serif;
       overflow: hidden;
+      position: relative;
     }
 
     .card {
@@ -27,16 +28,18 @@
 
     h1 {
       color: #ff4d6d;
-      margin-bottom: 10px;
+      margin-bottom: 20px;
     }
 
     p {
       color: #555;
       font-size: 16px;
+      margin: 8px 0;
     }
 
     .buttons {
       margin-top: 25px;
+      position: relative;
     }
 
     button {
@@ -46,17 +49,19 @@
       border: none;
       cursor: pointer;
       margin: 5px;
+      position: relative;
     }
 
     .yes {
       background: #ff4d6d;
       color: white;
+      z-index: 3;
     }
 
     .no {
       background: #eee;
       color: #555;
-      position: relative;
+      z-index: 3;
     }
 
     .hidden {
@@ -71,8 +76,9 @@
     .floating-heart {
       position: absolute;
       font-size: 20px;
-      animation: float 6s linear infinite;
+      animation: float linear infinite;
       opacity: 0.8;
+      z-index: 1;
     }
 
     @keyframes float {
@@ -89,25 +95,83 @@
 
   <div class="card">
     <h1>Diya 💕</h1>
-    <p>
-      Roses are red 🌹<br>
-      Distance is rude 😤<br>
-      But somehow you still<br>
-      make my life better every day.
-    </p>
+    <p>Roses are red 🌹</p>
+    <p>Distance is rude 😤</p>
+    <p>But somehow you still</p>
+    <p>make my life better every day.</p>
 
     <p><strong>Will you be my Valentine? 💘</strong></p>
 
     <div class="buttons">
       <button class="yes" onclick="sayYes()">YES 😍</button>
-      <button class="no" onmouseover="moveButton(this)">No 🤨</button>
+      <button class="no" onmouseover="runAway(this)">No 🤨</button>
     </div>
 
     <div id="response" class="hidden">
       <h2>YAYYY 🥰💖</h2>
-      <p>
-        Best decision ever.<br>
-        I’m so lucky you’re mine, Diya.
+      <p>Best decision ever.<br>I’m so lucky you’re mine, Diya.</p>
+
+      <p style="margin-top: 20px; font-style: italic;">
+        Forever yours,<br>
+        <strong>— Mahir 💕</strong>
       </p>
 
-      <p style=
+      <div class="hearts">💘💖💝💞💗</div>
+    </div>
+  </div>
+
+  <script>
+    // Continuously floating hearts in background
+    function createBackgroundHearts() {
+      for (let i = 0; i < 15; i++) {
+        const heart = document.createElement("div");
+        heart.className = "floating-heart";
+        heart.innerHTML = "💖";
+        heart.style.left = Math.random() * 100 + "vw";
+        heart.style.animationDuration = (Math.random() * 5 + 5) + "s";
+        heart.style.fontSize = (Math.random() * 20 + 15) + "px";
+        document.body.appendChild(heart);
+
+        setTimeout(() => {
+          heart.remove();
+          createBackgroundHearts(); // keep hearts floating infinitely
+        }, (parseFloat(heart.style.animationDuration) * 1000));
+      }
+    }
+
+    createBackgroundHearts();
+
+    // Runaway NO button
+    function runAway(button) {
+      const parent = button.parentElement;
+      const x = Math.random() * (parent.offsetWidth - button.offsetWidth);
+      const y = Math.random() * 50; // small vertical shift
+      button.style.transform = `translate(${x}px, ${y}px)`;
+    }
+
+    // YES button click
+    function sayYes() {
+      document.getElementById("response").classList.remove("hidden");
+      createHearts();
+    }
+
+    // Extra floating hearts on YES click
+    function createHearts() {
+      for (let i = 0; i < 25; i++) {
+        const heart = document.createElement("div");
+        heart.className = "floating-heart";
+        heart.innerHTML = "💖";
+        heart.style.left = Math.random() * 100 + "vw";
+        heart.style.animationDuration = (Math.random() * 3 + 3) + "s";
+        heart.style.fontSize = (Math.random() * 20 + 15) + "px";
+        document.body.appendChild(heart);
+
+        setTimeout(() => {
+          heart.remove();
+        }, (parseFloat(heart.style.animationDuration) * 1000));
+      }
+    }
+  </script>
+
+</body>
+</html>
